@@ -19,7 +19,7 @@ sampleCount = list(range(128))
 samples = []
 
 """ 
-    This is ran every second(interval) so that it displays
+    This is ran every 300ms(interval) so that it displays
     the updates the graph.
 
     The update rate can be changed by editting the FuncAnimation
