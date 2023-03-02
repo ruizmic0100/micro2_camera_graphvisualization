@@ -10,6 +10,7 @@ import os
 # TODO(MSR): Create an averaging line algorithm to help with 'jumpy' graphs.
 # TODO(MSR): Create an executable using pyinstaller.
 # TODO(MSR): Create a GUI implementation of this.
+# BUG(MSR): Fix it not closing
 
 ser = serial.Serial('COM12', 115200, timeout=2, bytesize=8, stopbits=1, parity=serial.PARITY_NONE, rtscts=0) # open serial port
 print(f"Port used: {ser.name}") # Prints the port used to connect
@@ -19,7 +20,7 @@ sampleCount = list(range(128))
 samples = []
 
 """ 
-    This is ran every 300ms(interval) so that it displays
+    This is ran every 50ms(interval) so that it displays
     the updates the graph.
 
     The update rate can be changed by editting the FuncAnimation
@@ -45,7 +46,7 @@ def animate(i):
     samples.clear() # clear the data buffer so that new fresh data can come in
 
 
-ani = FuncAnimation(plt.gcf(), animate, interval=300) # animation function that handles the refreshing of the plot
+ani = FuncAnimation(plt.gcf(), animate, interval=50) # animation function that handles the refreshing of the plot
 
 plt.show()
 
