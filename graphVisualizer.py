@@ -3,17 +3,30 @@ from matplotlib.animation import FuncAnimation
 import serial
 import time
 import os
+import argparse
 
-# TODO(MSR): Add clear and concise errors to each step with resolution messages.
-# TODO(MSR): Make Graph better or whatever...
-# TODO(MSR): Add parsearg to have the user be able to change certain paremeters of the script.
+parser = argparse.ArgumentParser(description='Graphs the linescan values from the serial terminal in real-time.')
+
+parser.add_argument('com_port', metavar='N', type=int, nargs='+',
+                    help='specify the COM port.')
+
+args = parser.parse_args()
+
+
+# TODO(MSR): Make Graph also support double buffering
 # TODO(MSR): Create an averaging line algorithm to help with 'jumpy' graphs.
 # TODO(MSR): Create an executable using pyinstaller.
 # TODO(MSR): Create a GUI implementation of this.
 # BUG(MSR): Fix it not closing
 
-ser = serial.Serial('COM12', 115200, timeout=2, bytesize=8, stopbits=1, parity=serial.PARITY_NONE, rtscts=0) # open serial port
-print(f"Port used: {ser.name}") # Prints the port used to connect
+# Saving COM Port argument here for use in creating the serial comm terminal.
+COM_port = str(args.com_port)
+
+try:
+    ser = serial.Serial(COM_port, 115200, timeout=2, bytesize=8, stopbits=1, parity=serial.PARITY_NONE, rtscts=0) # open serial port
+except:
+    print("Serial Communication could not be established. Is the board plugged in? Was the correct COM port specified?")
+    exit()
 
 # Holds the data from the camera
 sampleCount = list(range(128))
